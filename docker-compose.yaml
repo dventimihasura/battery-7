@@ -20,7 +20,7 @@ services:
     ports:
       - "8081:8080"
     depends_on:
-      - "postgres"
+      - "metadata-1"
     restart: always
     environment:
       PG_DATABASE_URL: postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}
@@ -31,9 +31,9 @@ services:
   graphql-engine-2:
     image: hasura/graphql-engine:latest
     ports:
-      - "8081:8080"
+      - "8082:8080"
     depends_on:
-      - "postgres"
+      - "metadata-2"
     restart: always
     environment:
       PG_DATABASE_URL: postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}
@@ -44,9 +44,9 @@ services:
   graphql-engine-3:
     image: hasura/graphql-engine:latest
     ports:
-      - "8081:8080"
+      - "8083:8080"
     depends_on:
-      - "postgres"
+      - "metadata-3"
     restart: always
     environment:
       PG_DATABASE_URL: postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}
