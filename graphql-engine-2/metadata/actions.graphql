@@ -1,0 +1,26 @@
+type Query {
+  users: [User]!
+}
+
+input SampleInput {
+  username: String!
+  password: String!
+}
+
+type SampleOutput {
+  accessToken: String!
+}
+
+type User {
+  id: Int!
+  name: String!
+  created_at: Int!
+  updated_at: Int!
+}
+
+type MyQueryOutput {
+  bloom: String
+  description: String
+  family: String
+}
+
