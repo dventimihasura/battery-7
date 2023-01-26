@@ -3,6 +3,19 @@
     url: http://graphql-engine-4:8080/v1/graphql
     timeout_seconds: 60
     customization: {}
+  remote_relationships:
+    - relationships:
+        - definition:
+            to_remote_schema:
+              lhs_fields:
+                - product_id
+              remote_field:
+                product:
+                  arguments:
+                    id: $product_id
+              remote_schema: graphql-engine-5
+          name: product
+      type_name: LineItem
 - name: graphql-engine-5
   definition:
     url: http://graphql-engine-5:8080/v1/graphql
