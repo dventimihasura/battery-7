@@ -1,6 +1,20 @@
-actions: []
+actions:
+  - name: users
+    definition:
+      kind: ""
+      handler: http://faker-1:3030/v1/users
+      request_transform:
+        method: GET
+        query_params: {}
+        request_headers:
+          add_headers: {}
+          remove_headers:
+            - content-type
+        template_engine: Kriti
+        version: 2
 custom_types:
   enums: []
   input_objects: []
-  objects: []
+  objects:
+    - name: User
   scalars: []
