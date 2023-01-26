@@ -1,10 +1,6 @@
 actions: []
 custom_types:
   enums: []
-  input_objects:
-    - name: SampleInput
-  objects:
-    - name: SampleOutput
-    - name: User
-    - name: MyQueryOutput
+  input_objects: []
+  objects: []
   scalars: []
