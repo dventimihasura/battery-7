@@ -2,4 +2,12 @@
   definition:
     url: http://graphql-engine-2:8080/v1/graphql
     timeout_seconds: 60
-    customization: {}
+    customization:
+      root_fields_namespace: graphql_engine_2
+  comment: ""
+- name: graphql-engine-3
+  definition:
+    url: http://graphql-engine-3:8080/v1/graphql
+    timeout_seconds: 60
+    customization:
+      root_fields_namespace: graphql_engine_3
