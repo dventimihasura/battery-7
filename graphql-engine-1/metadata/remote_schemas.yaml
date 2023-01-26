@@ -1,16 +1,10 @@
-- name: graphql-engine-2
+- name: graphql-engine-4
   definition:
-    url: http://graphql-engine-2:8080/v1/graphql
+    url: http://graphql-engine-4:8080/v1/graphql
     timeout_seconds: 60
-    customization:
-      root_fields_namespace: graphql_engine_2
-  comment: ""
-  remote_relationships:
-    - relationships: []
-      type_name: User
-- name: graphql-engine-3
+    customization: {}
+- name: graphql-engine-5
   definition:
-    url: http://graphql-engine-3:8080/v1/graphql
+    url: http://graphql-engine-5:8080/v1/graphql
     timeout_seconds: 60
-    customization:
-      root_fields_namespace: graphql_engine_3
+    customization: {}
