@@ -1,1 +1,9 @@
-[]
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: GetLineItem
+  methods:
+    - GET
+  name: GetLineItem
+  url: line_item/:id

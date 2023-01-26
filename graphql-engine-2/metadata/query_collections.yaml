@@ -1,1 +1,11 @@
-[]
+- name: allowed-queries
+  definition:
+    queries:
+      - name: GetLineItem
+        query: |
+          query MyQuery ($id: Int!) {
+            line_item_by_pk(id: $id) {
+              id
+              product_id
+            }
+          }
