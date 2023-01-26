@@ -1,7 +1,0 @@
-type User {
-  id: Int!
-  name: String!
-  created_at: Int!
-  updated_at: Int!
-}
-
