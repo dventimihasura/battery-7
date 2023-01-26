@@ -1,7 +1,3 @@
-type Query {
-  users: [User]!
-}
-
 input SampleInput {
   username: String!
   password: String!

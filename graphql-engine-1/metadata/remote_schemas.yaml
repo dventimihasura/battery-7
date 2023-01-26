@@ -5,6 +5,9 @@
     customization:
       root_fields_namespace: graphql_engine_2
   comment: ""
+  remote_relationships:
+    - relationships: []
+      type_name: User
 - name: graphql-engine-3
   definition:
     url: http://graphql-engine-3:8080/v1/graphql
