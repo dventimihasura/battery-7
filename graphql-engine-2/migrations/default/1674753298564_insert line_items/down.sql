@@ -1,0 +1,4 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- insert into line_item (id, product_id)
+-- select generate_series(1, 100), floor(random()*1000)+1;

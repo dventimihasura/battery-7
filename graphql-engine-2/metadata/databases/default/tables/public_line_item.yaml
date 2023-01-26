@@ -1,0 +1,3 @@
+table:
+  name: line_item
+  schema: public
