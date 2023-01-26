@@ -1,6 +1,32 @@
-actions: []
+actions:
+  - name: lineItem
+    definition:
+      kind: ""
+      handler: http://graphql-engine-2:8080/api/rest
+      request_transform:
+        body:
+          action: remove
+        method: GET
+        query_params: {}
+        request_headers:
+          add_headers: {}
+          remove_headers:
+            - content-type
+        template_engine: Kriti
+        url: '{{$base_url}}/line_item/{{$body.input.id}}'
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "id": {{$body.line_item_by_pk.id}}, "product_id": {{$body.line_item_by_pk.product_id}}
+            }
+        template_engine: Kriti
+        version: 2
 custom_types:
   enums: []
   input_objects: []
-  objects: []
+  objects:
+    - name: LineItem
   scalars: []

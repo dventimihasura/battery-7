@@ -1,0 +1,11 @@
+type Query {
+  lineItem(
+    id: Int!
+  ): LineItem
+}
+
+type LineItem {
+  id: Int!
+  product_id: Int!
+}
+
