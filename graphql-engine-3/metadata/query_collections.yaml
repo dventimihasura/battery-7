@@ -1,1 +1,11 @@
-[]
+- name: allowed-queries
+  definition:
+    queries:
+      - name: GetProduct
+        query: |
+          query MyQuery ($id: Int!) {
+            product_by_pk(id: $id) {
+              id
+              name
+            }
+          }

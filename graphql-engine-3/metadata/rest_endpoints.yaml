@@ -1,1 +1,9 @@
-[]
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: GetProduct
+  methods:
+    - GET
+  name: GetProduct
+  url: product/:id
