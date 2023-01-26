@@ -1,0 +1,11 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- drop table account cascade;
+--
+-- drop table "order" cascade;
+--
+-- drop table order_detail cascade;
+--
+-- drop table product cascade;
+--
+-- drop table region cascade;
