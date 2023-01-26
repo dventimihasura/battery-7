@@ -15,6 +15,16 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgrespassword
+  metadata-4:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+  metadata-5:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
   graphql-engine-1:
     image: hasura/graphql-engine:latest
     ports:
@@ -48,6 +58,30 @@ services:
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@metadata-3:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  graphql-engine-4:
+    image: hasura/graphql-engine:latest
+    ports:
+      - "8084:8080"
+    depends_on:
+      - "metadata-4"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@metadata-4:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+  graphql-engine-5:
+    image: hasura/graphql-engine:latest
+    ports:
+      - "8085:8080"
+    depends_on:
+      - "metadata-5"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@metadata-5:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
