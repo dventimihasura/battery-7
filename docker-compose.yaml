@@ -15,24 +15,6 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgrespassword
-  faker-1:
-    image: dotronglong/faker:stable
-    volumes:
-      - ./mocks:/app/mocks
-    ports:
-      - "3031:3030"
-  faker-2:
-    image: dotronglong/faker:stable
-    volumes:
-      - ./mocks:/app/mocks
-    ports:
-      - "3032:3030"
-  faker-3:
-    image: dotronglong/faker:stable
-    volumes:
-      - ./mocks:/app/mocks
-    ports:
-      - "3033:3030"
   graphql-engine-1:
     image: hasura/graphql-engine:latest
     ports:
