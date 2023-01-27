@@ -35,5 +35,5 @@ cat test_3.json | jq -r '"graphql-engine-5: \(.metrics.http_req_duration)"' >> k
 
 # Stop the services.
 
-docker-compose down
+# docker-compose down
 
