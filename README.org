@@ -1,0 +1,135 @@
+* What
+
+This repository provides a self-contained bench-marking script for
+[[https://hasura.io/][Hasura]].  It addresses the following question.
+
+#+begin_quote
+What is an estimate on the lower-bound for latency introduced
+in-process by Hasura's [[https://hasura.io/blog/tagged/remote-schemas/][Remote Schema]] feature, under ideal
+circumstances?
+#+end_quote
+
+*** Definitions
+
+- lower-bound :: Under non-ideal circumstances latency SHOULD NOT be
+  less than the lower-bound, though it MAY be greater than the lower
+  bound.
+- in-process :: The CPU-bound but not IO-bound activities within
+  Hasura ~graphql-engine~ involved in calling a Remote Schema
+  provider, marshaling its data, and re-transmitting it downstream,
+  but /not/ involved in Remote Joins.
+- ideal circumstances :: The Hasura ~graphql-engine~ instance which
+  is using the Remote Schema feature, and the service which is
+  providing the remote schema end-point, are co-located in that they
+  are separate processes communicating /through/ the network stack but
+  over the [[https://en.wikipedia.org/wiki/Localhost][loop-back]] adapter, not over [[https://en.wikipedia.org/wiki/Unix_domain_socket][server sockets]] or [[https://en.wikipedia.org/wiki/Inter-process_communication][IPC]] but also
+  not over a network separating multiple hosts.
+
+* Why
+
+Hasura's Remote Schema can be exploited in order to use Hasura as a
+[[https://www.w3.org/Library.old/User/Using/Proxy.html][gateway proxy]] to down-stream [[https://graphql.org/][GraphQL]] services.  It is worthwhile to
+obtain evidence of the best-case latency introduced in this
+configuration.  Latency can always be made worse, for instance by
+geographically separating the gateway proxy from its origin servers or
+using a slow network.  Therefore, rather than dwell on how bad it can
+possibly be, which is too open-ended to be answered profitably, here
+we dwell on how good it can possibly be in order to evaluate the
+practicality of using Hasura as a gateway proxy.
+
+* How
+
+This repository comprises a [[file:docker-compose.yaml][docker-compose.yaml]] file to launch the
+System Under Test (SUT), Hasura project directories for the service
+components within the SUT, k6 test scripts [[file:test_1.js][test_1.js]], [[file:test_2.js][test_2.js]], and
+[[file:test_3.js][test_3.js]], and a Bash script [[file:test.bash][test.bash]] which orchestrates the
+bench-mark.
+
+The SUT defined by the [[file:docker-compose.yaml][docker-compose.yaml]] file has these services.
+
+- graphql-engine-1 :: root-node gateway proxy instance /using/ the
+  Remote Schema feature
+- graphql-engine-2 :: leaf-node instance /hosting/ a [[https://hasura.io/blog/adding-rest-endpoints-to-hasura-cloud/][RESTified
+  end-point]] for ~lineItem~ entries, which relate to ~product~ entries
+- graphql-engine-3 :: leaf-node instance /hosting/ a RESTified
+  end-point for ~product~ entries
+- graphql-engine-4 :: internal-node instance /using/ Actions to
+  present ~graphql-engine-2~ ~lineItem~ entries as a GraphQL
+  ~line_item~ top-level field 
+- graphql-engine-5 :: internal-node instance /using/ Actions to
+  present ~graphql-engine-3~ ~product~ entries as a GraphQL ~product~
+  top-level field
+- metadata-1 :: metadata database for ~graphql-engine-1~
+- metadata-2 :: metadata database for ~graphql-engine-2~
+- metadata-3 :: metadata database for ~graphql-engine-3~
+- metadata-4 :: metadata database for ~graphql-engine-4~
+- metadata-5 :: metadata database for ~graphql-engine-5~
+
+The Hasura project directories [[file:graphql-engine-1/config.yaml][graphql-engine-1]] through
+[[file:graphql-engine-5/config.yaml][graphql-engine-5]] contain config metadata and migrations for the
+corresponding Hasura services.
+
+The [[file:test_1.js][test_1.js]] script can be ignored as it bench-marks Hasura Remote
+Joins, which is not the subject of this particular test.
+
+The [[file:test_2.js][test_2.js]] script uses [[https://k6.io/][k6]] to query the ~product~ top-level GraphQL
+field from the gateway proxy ~graphql-engine-1~ via the Remote Schema
+feature.
+
+The [[file:test_3.js][test_3.js]] script uses [[https://k6.io/][k6]] to query the ~product~ top-level GraphQL
+field directly from the ~graphql-engine-5~ service, thereby omitting
+the Remote Schema feature from the call graph.
+
+The [[file:test.bash][test.bash]] script orchestrates the test by performing these tasks.
+
+1. Start the services defined in the [[file:docker-compose.yaml][docker-compose.yaml]] file.
+2. Deploy the Hasura projects in the proper order.
+3. Run the [[https://k6.io/][k6]] test scripts and write their summary reports to JSON
+   files.
+4. Extract the relevant metrics into a ~k6.log~ file.
+5. Stop the services.
+
+* Steps
+
+1. Clone this repository.
+2. Install [[https://docs.docker.com/get-docker/][Docker]] and [[https://docs.docker.com/compose/install/linux/][Docker Compose]].
+3. Install the [[https://hasura.io/docs/latest/hasura-cli/install-hasura-cli/][Hasura CLI]].
+4. Install [[https://k6.io/docs/get-started/installation/][k6]].
+5. Run the test script.
+
+   ```shell
+   bash test.bash
+   ```
+
+* Results
+
+The ~k6.log~ file should contain results that /resemble/ the
+following.  These figures are representative only, provided for
+illustrative purposes only, /without/ warranty or guarantee.
+
+These were obtained on a DigitalOcean ~g-16vcpu-64gb~ instance (see
+https://slugs.do-api.dev/ for reference) on <2023-01-27 Fri>.  Its
+basic specs are these.
+
+|--------+------+---------|
+| Memory | CPUs | Storage |
+|--------+------+---------|
+| 64 GB  |   16 | 200 GB  |
+|--------+------+---------|
+
+1. ~graphql-engine-1~ gateway proxy
+
+   ```json
+   {"max":10.569528,"p(90)":2.6242939,"p(95)":2.7553126,"avg":2.440888898989894,"min":2.114869,"med":2.404955}
+   ```
+
+   **Average Latency** : approximately ~2.4 ms~
+
+2. ~graphql-engine-5~ direct
+
+   ```json
+   {"min":0.592457,"med":0.7080580000000001,"max":3.186012,"p(90)":0.7965525,"p(95)":0.82732,"avg":0.7251114599236624}
+   ```
+   **Average Latency** : approximately ~0.7 ms~
+
+#  LocalWords:  Hasura's graphql SUT RESTified lineItem config
