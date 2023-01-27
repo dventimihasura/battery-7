@@ -125,7 +125,7 @@ basic specs are these.
    {"p(95)":2.2320507999999997,"avg":1.9202182428770713,"min":1.530357,"med":1.88487,"max":7.927834,"p(90)":2.1095892}
    #+end_src
 
-   **Average Latency** : approximately ~1.9 ms~
+   *Average Latency* : approximately ~1.9 ms~
 
 2. ~graphql-engine-5~ direct
 
@@ -133,7 +133,7 @@ basic specs are these.
    {"max":5.891011,"p(90)":1.4874268,"p(95)":1.5649473999999997,"avg":1.3486507022272667,"min":1.09071,"med":1.320302}
    #+end_src
    
-   **Average Latency** : approximately ~1.3 ms~
+   *Average Latency* : approximately ~1.3 ms~
 
 In this illustrative example, using Hasura as a gateway proxy with
 Remote Schema may have added up to 571 µs (micro-seconds) of average latency.
