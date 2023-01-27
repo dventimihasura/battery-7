@@ -24,7 +24,7 @@ circumstances?
   separate processes communicating /through/ the network stack but
   over the [[https://en.wikipedia.org/wiki/Localhost][loop-back]] adapter, not over [[https://en.wikipedia.org/wiki/Unix_domain_socket][server sockets]] or [[https://en.wikipedia.org/wiki/Inter-process_communication][IPC]] but also
   not over a network separating multiple hosts. The latency test
-  comprises simple queries, with mutations.  The test runs for 10
+  comprises simple queries, without mutations.  The test runs for 10
   seconds and uses just one k6 [[https://k6.io/docs/misc/glossary/#virtual-user][virtual user]].
 
 * Why
