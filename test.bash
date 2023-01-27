@@ -31,7 +31,7 @@ k6 run -q -u1 -d10s test_3.js --summary-export test_3.json
 # Extract the relevant metrics into a log file.
 
 cat test_2.json | jq -r '"graphql-engine-1: \(.metrics.http_req_duration)"' >> k6.log
-cat test_3.json | jq -r '"graphql-engine-3: \(.metrics.http_req_duration)"' >> k6.log
+cat test_3.json | jq -r '"graphql-engine-5: \(.metrics.http_req_duration)"' >> k6.log
 
 # Stop the services.
 
