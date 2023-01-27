@@ -97,9 +97,9 @@ The [[file:test.bash][test.bash]] script orchestrates the test by performing the
 4. Install [[https://k6.io/docs/get-started/installation/][k6]].
 5. Run the test script.
 
-   ```shell
+   #+begin_src shell
    bash test.bash
-   ```
+   #+end_src
 
 * Results
 
@@ -119,17 +119,18 @@ basic specs are these.
 
 1. ~graphql-engine-1~ gateway proxy
 
-   ```json
+   #+begin_src js
    {"max":10.569528,"p(90)":2.6242939,"p(95)":2.7553126,"avg":2.440888898989894,"min":2.114869,"med":2.404955}
-   ```
+   #+end_src
 
    **Average Latency** : approximately ~2.4 ms~
 
 2. ~graphql-engine-5~ direct
 
-   ```json
+   #+begin_src js
    {"min":0.592457,"med":0.7080580000000001,"max":3.186012,"p(90)":0.7965525,"p(95)":0.82732,"avg":0.7251114599236624}
-   ```
+   #+end_src
+   
    **Average Latency** : approximately ~0.7 ms~
 
 #  LocalWords:  Hasura's graphql SUT RESTified lineItem config
