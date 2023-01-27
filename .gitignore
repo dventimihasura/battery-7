@@ -2,3 +2,5 @@ scratch.sql
 test_1.json
 test_2.json
 test_3.json
+k6.log
+*.log

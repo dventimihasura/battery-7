@@ -17,7 +17,7 @@ pushd graphql-engine-1 && hasura deploy && popd
 k6 run -q -u1 -d10s test_1.js --summary-export test_1.json
 k6 run -q -u1 -d10s test_2.js --summary-export test_2.json
 k6 run -q -u1 -d10s test_3.js --summary-export test_3.json
-cat test_2.json | jq -r '.metrics.http_req_duration.avg'
-cat test_3.json | jq -r '.metrics.http_req_duration.avg'
+cat test_2.json | jq -r '"graphql-engine-1: \(.metrics.http_req_duration)"' >> k6.log
+cat test_3.json | jq -r '"graphql-engine-3: \(.metrics.http_req_duration)"' >> k6.log
 docker-compose down
 
