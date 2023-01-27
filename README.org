@@ -18,12 +18,14 @@ circumstances?
   Hasura ~graphql-engine~ involved in calling a Remote Schema
   provider, marshaling its data, and re-transmitting it downstream,
   but /not/ involved in Remote Joins.
-- ideal circumstances :: The Hasura ~graphql-engine~ instance which
-  is using the Remote Schema feature, and the service which is
-  providing the remote schema end-point, are co-located in that they
-  are separate processes communicating /through/ the network stack but
+- ideal circumstances :: The Hasura ~graphql-engine~ instance which is
+  using the Remote Schema feature, and the service which is providing
+  the remote schema end-point, are co-located in that they are
+  separate processes communicating /through/ the network stack but
   over the [[https://en.wikipedia.org/wiki/Localhost][loop-back]] adapter, not over [[https://en.wikipedia.org/wiki/Unix_domain_socket][server sockets]] or [[https://en.wikipedia.org/wiki/Inter-process_communication][IPC]] but also
-  not over a network separating multiple hosts.
+  not over a network separating multiple hosts. The latency test
+  comprises simple queries, with mutations.  The test runs for 10
+  seconds and uses just one k6 [[https://k6.io/docs/misc/glossary/#virtual-user][virtual user]].
 
 * Why
 
@@ -120,17 +122,20 @@ basic specs are these.
 1. ~graphql-engine-1~ gateway proxy
 
    #+begin_src js
-   {"max":10.569528,"p(90)":2.6242939,"p(95)":2.7553126,"avg":2.440888898989894,"min":2.114869,"med":2.404955}
+   {"p(95)":2.2320507999999997,"avg":1.9202182428770713,"min":1.530357,"med":1.88487,"max":7.927834,"p(90)":2.1095892}
    #+end_src
 
-   **Average Latency** : approximately ~2.4 ms~
+   **Average Latency** : approximately ~1.9 ms~
 
 2. ~graphql-engine-5~ direct
 
    #+begin_src js
-   {"min":0.592457,"med":0.7080580000000001,"max":3.186012,"p(90)":0.7965525,"p(95)":0.82732,"avg":0.7251114599236624}
+   {"max":5.891011,"p(90)":1.4874268,"p(95)":1.5649473999999997,"avg":1.3486507022272667,"min":1.09071,"med":1.320302}
    #+end_src
    
-   **Average Latency** : approximately ~0.7 ms~
+   **Average Latency** : approximately ~1.3 ms~
+
+In this illustrative example, using Hasura as a gateway proxy with
+Remote Schema may have added up to 571 µs (micro-seconds) of average latency.
 
 #  LocalWords:  Hasura's graphql SUT RESTified lineItem config
