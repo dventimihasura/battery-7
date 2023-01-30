@@ -12,15 +12,15 @@ docker-compose up -d
 # Deploy Hasura projects in the proper order, after their health checks pass.
 
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8082/healthz)" != "200" ]]; do sleep 5; done
-pushd graphql-engine-2 && hasura deploy && popd
+pushd graphql-engine-2 && hasura deploy --skip-update-check && popd
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8083/healthz)" != "200" ]]; do sleep 5; done
-pushd graphql-engine-3 && hasura deploy && popd
+pushd graphql-engine-3 && hasura deploy --skip-update-check && popd
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8084/healthz)" != "200" ]]; do sleep 5; done
-pushd graphql-engine-4 && hasura deploy && popd
+pushd graphql-engine-4 && hasura deploy --skip-update-check && popd
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8085/healthz)" != "200" ]]; do sleep 5; done
-pushd graphql-engine-5 && hasura deploy && popd
+pushd graphql-engine-5 && hasura deploy --skip-update-check && popd
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8081/healthz)" != "200" ]]; do sleep 5; done
-pushd graphql-engine-1 && hasura deploy && popd
+pushd graphql-engine-1 && hasura deploy --skip-update-check && popd
 
 # Run the load test scripts.
 
@@ -35,5 +35,5 @@ cat test_3.json | jq -r '"graphql-engine-5: \(.metrics.http_req_duration)"' >> k
 
 # Stop the services.
 
-# docker-compose down
+docker-compose down
 
